@@ -31,7 +31,7 @@ public class UserServiceImpl implements UserService {
 	@Override
 	public UserDto updateUser(UserDto userDto, Integer userID) {
 		// TODO Auto-generated method stub
-		User1 user1 = userrepo.findById(userID).orElseThrow(() -> new ResourceNotFoundException("User1", "id" , userID));
+		User1 user1 = userrepo.findById(userID).orElseThrow(() -> new ResourceNotFoundException("User", "id" , userID));
 		
 		user1.setName(userDto.getName());
 		user1.setEmail(userDto.getEmail());
@@ -47,7 +47,7 @@ public class UserServiceImpl implements UserService {
 	@Override
 	public UserDto getUserById(Integer userID) {
 		// TODO Auto-generated method stub
-		User1 user1 = userrepo.findById(userID).orElseThrow(() -> new ResourceNotFoundException("User1", "id" , userID));
+		User1 user1 = userrepo.findById(userID).orElseThrow(() -> new ResourceNotFoundException("User", "id" , userID));
 		
 		return this.userTodto(user1);
 	}
@@ -63,7 +63,7 @@ public class UserServiceImpl implements UserService {
 	@Override
 	public void deleteUser(Integer userID) {
 		// TODO Auto-generated method stub
-		User1 user1 = userrepo.findById(userID).orElseThrow(() -> new ResourceNotFoundException("User1", "id" , userID));
+		User1 user1 = userrepo.findById(userID).orElseThrow(() -> new ResourceNotFoundException("User", "id" , userID));
 		this.userrepo.delete(user1);
 	
 
