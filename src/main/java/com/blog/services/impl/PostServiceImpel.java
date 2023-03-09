@@ -130,9 +130,12 @@ public class PostServiceImpel implements PostService {
 	}
 
 	@Override
-	public List<Post> searchPost(String Keyword) {
-		// TODO Auto-generated method stub
-		return null;
+	public List<PostDto> searchPost(String Keyword) {
+		
+		List<Post> posts = this.postRepo.searchbytitle("%"+Keyword+"%");
+        List<PostDto> dtos = posts.stream().map((post) -> this.modelmapper.map(posts, PostDto.class)).collect(Collectors.toList());
+		
+		return dtos;
 	}
 
 }

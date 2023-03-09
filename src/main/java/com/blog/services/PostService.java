@@ -30,6 +30,6 @@ public interface PostService {
 	List<PostDto> getpostbyuser(Integer UserId);
 	
 	//Search Post
-	List<Post> searchPost(String Keyword);
+	List<PostDto> searchPost(String Keyword);
 	
 }
