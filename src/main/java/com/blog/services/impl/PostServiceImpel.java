@@ -6,6 +6,7 @@ import java.util.List;
 import java.util.stream.Collectors;
 
 import org.modelmapper.ModelMapper;
+import org.modelmapper.internal.bytebuddy.asm.Advice.OffsetMapping.Sort;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.data.domain.Page;
 import org.springframework.data.domain.PageRequest;
@@ -81,10 +82,10 @@ public class PostServiceImpel implements PostService {
 	}
 
 	@Override
-	public PostResponse getAllpost(Integer pageNumeber , Integer pagesize) {
+	public PostResponse getAllpost(Integer pageNumeber , Integer pagesize, String sortby) {
 		
 		
-		org.springframework.data.domain.Pageable p  = PageRequest.of(pageNumeber, pagesize);
+		org.springframework.data.domain.Pageable p  = PageRequest.of(pageNumeber, pagesize, org.springframework.data.domain.Sort.by(sortby));
 		
 		Page<Post> pagepost = this.postRepo.findAll(p);
 		List<Post> allPost = pagepost.getContent();
