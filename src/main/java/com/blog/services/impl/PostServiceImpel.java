@@ -56,15 +56,24 @@ public class PostServiceImpel implements PostService {
 	}
 
 	@Override
-	public Post updatepost(PostDto postDto, Integer postId) {
-		// TODO Auto-generated method stub
-		return null;
+	public PostDto updatepost(PostDto postDto, Integer postId) {
+		
+		Post post = this.postRepo.findById(postId).orElseThrow(() -> new ResourceNotFoundException("Post", "Post Id", postId));
+		
+		post.setTitle(postDto.getTitle());
+		post.setContent(postDto.getContent());
+		post.setImageName(postDto.getImageName());
+		
+		Post updatedpost = this.postRepo.save(post);
+		
+		return this.modelmapper.map(updatedpost, PostDto.class);
 	}
 
 	@Override
 	public void deletepost(Integer postId) {
-		// TODO Auto-generated method stub
-
+		
+		Post post = this.postRepo.findById(postId).orElseThrow(() -> new ResourceNotFoundException("Post", "Post Id", postId));
+		this.postRepo.delete(post);
 	}
 
 	@Override
