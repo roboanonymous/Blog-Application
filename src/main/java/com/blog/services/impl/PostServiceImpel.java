@@ -1,11 +1,14 @@
 package com.blog.services.impl;
 
+import java.awt.print.Pageable;
 import java.util.Date;
 import java.util.List;
 import java.util.stream.Collectors;
 
 import org.modelmapper.ModelMapper;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.data.domain.Page;
+import org.springframework.data.domain.PageRequest;
 import org.springframework.stereotype.Service;
 
 import com.blog.entity.Category;
@@ -77,9 +80,13 @@ public class PostServiceImpel implements PostService {
 	}
 
 	@Override
-	public List<PostDto> getAllpost() {
+	public List<PostDto> getAllpost(Integer pageNumeber , Integer pagesize) {
 		
-		List <Post> allPost = this.postRepo.findAll();
+		
+		org.springframework.data.domain.Pageable p  = PageRequest.of(pageNumeber, pagesize);
+		
+		Page<Post> pagepost = this.postRepo.findAll(p);
+		List<Post> allPost = pagepost.getContent();
 		List<PostDto> dtos = allPost.stream().map((post) -> this.modelmapper.map(post, PostDto.class)).collect(Collectors.toList());		
 		return dtos;
 	}
