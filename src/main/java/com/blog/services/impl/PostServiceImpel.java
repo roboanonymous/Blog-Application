@@ -2,6 +2,7 @@ package com.blog.services.impl;
 
 import java.util.Date;
 import java.util.List;
+import java.util.stream.Collectors;
 
 import org.modelmapper.ModelMapper;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -67,27 +68,38 @@ public class PostServiceImpel implements PostService {
 	}
 
 	@Override
-	public List<Post> getAllpost() {
-		// TODO Auto-generated method stub
-		return null;
+	public List<PostDto> getAllpost() {
+		
+		List <Post> allPost = this.postRepo.findAll();
+		List<PostDto> dtos = allPost.stream().map((post) -> this.modelmapper.map(post, PostDto.class)).collect(Collectors.toList());		
+		return dtos;
 	}
 
 	@Override
-	public Post getpostbyId(Integer postId) {
-		// TODO Auto-generated method stub
-		return null;
+	public PostDto getpostbyId(Integer postId) {
+		Post post = this.postRepo.findById(postId).orElseThrow(() -> new ResourceNotFoundException("Post", "Post Id", postId));
+		return this.modelmapper.map(post, PostDto.class);
 	}
 
 	@Override
-	public List<Post> getpostbycategories(Integer CategoryId) {
-		// TODO Auto-generated method stub
-		return null;
+	public List<PostDto> getpostbycategories(Integer CategoryId) {
+		
+		Category cat = this.categoryRepo.findById(CategoryId).orElseThrow(() -> new ResourceNotFoundException("Category", "CategoryId", CategoryId));
+		List<Post> posts = this.postRepo.findByCategory(cat);
+		List<PostDto> dtos = posts.stream().map((post) -> this.modelmapper.map(posts, PostDto.class)).collect(Collectors.toList());
+		
+		return dtos;
 	}
 
 	@Override
-	public List<Post> getpostbyuser(Integer UserId) {
-		// TODO Auto-generated method stub
-		return null;
+	public List<PostDto> getpostbyuser(Integer UserId) {
+		
+		User1 user1 = this.userRepo.findById(UserId).orElseThrow(() -> new ResourceNotFoundException("User", "User Id", UserId));
+		List<Post> posts = this.postRepo.findByUser1(user1);
+		List<PostDto> dtos = posts.stream().map((post) -> this.modelmapper.map(posts, PostDto.class)).collect(Collectors.toList());
+		
+		
+		return dtos;
 	}
 
 	@Override

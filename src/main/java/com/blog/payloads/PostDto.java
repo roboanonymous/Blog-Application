@@ -15,6 +15,7 @@ import lombok.Setter;
 @NoArgsConstructor
 public class PostDto {
 
+	 private Integer postId;
 	 private String title;
 	 private String Content;
 	 private String imageName;
