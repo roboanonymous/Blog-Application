@@ -17,6 +17,7 @@ import com.blog.entity.User1;
 import com.blog.exception.ResourceNotFoundException;
 import com.blog.payloads.CategoryDto;
 import com.blog.payloads.PostDto;
+import com.blog.payloads.PostResponse;
 import com.blog.repositories.CategoryRepo;
 import com.blog.repositories.PostRepo;
 import com.blog.repositories.UserRepo;
@@ -80,7 +81,7 @@ public class PostServiceImpel implements PostService {
 	}
 
 	@Override
-	public List<PostDto> getAllpost(Integer pageNumeber , Integer pagesize) {
+	public PostResponse getAllpost(Integer pageNumeber , Integer pagesize) {
 		
 		
 		org.springframework.data.domain.Pageable p  = PageRequest.of(pageNumeber, pagesize);
@@ -88,7 +89,16 @@ public class PostServiceImpel implements PostService {
 		Page<Post> pagepost = this.postRepo.findAll(p);
 		List<Post> allPost = pagepost.getContent();
 		List<PostDto> dtos = allPost.stream().map((post) -> this.modelmapper.map(post, PostDto.class)).collect(Collectors.toList());		
-		return dtos;
+		
+		PostResponse postResponse = new PostResponse();
+		postResponse.setContent(dtos);
+		postResponse.setPageNumber(pagepost.getNumber());
+		postResponse.setPagesize(pagepost.getSize());
+		postResponse.setTotalElements(pagepost.getTotalElements());
+		postResponse.setTotalpages(pagepost.getTotalPages());
+		postResponse.setLastpage(pagepost.isLast());
+		
+		return postResponse;
 	}
 
 	@Override
