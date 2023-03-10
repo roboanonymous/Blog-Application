@@ -12,6 +12,10 @@ import jakarta.persistence.FetchType;
 import jakarta.persistence.GeneratedValue;
 import jakarta.persistence.GenerationType;
 import jakarta.persistence.Id;
+import jakarta.persistence.JoinColumn;
+import jakarta.persistence.JoinTable;
+import jakarta.persistence.ManyToMany;
+import jakarta.persistence.ManyToOne;
 import jakarta.persistence.OneToMany;
 import jakarta.persistence.Table;
 import lombok.Getter;
@@ -39,5 +43,11 @@ public class User1 {
 	
 	@OneToMany(mappedBy = "user1" , cascade = CascadeType.ALL)
 	 private Set<Comment> comments = new HashSet<>();
+	
+	@ManyToMany(cascade = CascadeType.ALL , fetch = FetchType.EAGER)
+	@JoinTable(name = "user_role" , joinColumns = @JoinColumn(name = "users" , referencedColumnName = "id"), 
+	inverseJoinColumns = @JoinColumn(name = "role" , referencedColumnName = "id")
+			)
+	private Set<Role> role = new HashSet<>();
 
 }
