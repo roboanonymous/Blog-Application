@@ -8,5 +8,6 @@ import com.blog.entity.User1;
 
 public interface UserRepo extends JpaRepository<User1, Integer> {
 
-	Optional<User1> findbyEmail(String email);
+	Optional<User1> findbyemail(String email);
+	
 }

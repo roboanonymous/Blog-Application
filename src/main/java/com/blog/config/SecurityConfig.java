@@ -46,7 +46,7 @@ public class SecurityConfig {
 	public DaoAuthenticationProvider authenticationProvider()
 	{
 		DaoAuthenticationProvider DaoAuthenticationProvider = new DaoAuthenticationProvider();
-		DaoAuthenticationProvider.setUserDetailsService(this.CustomUserDetailsService());
+		DaoAuthenticationProvider.setUserDetailsService(this.CustomUserDetailsService);
 		DaoAuthenticationProvider.setPasswordEncoder(passwordEncoder());
 		
 		return DaoAuthenticationProvider;
@@ -71,8 +71,6 @@ public class SecurityConfig {
 		.requestMatchers("/api/v1/auth/login")
 		.permitAll()
 		.anyRequest()
-//		.requestMatchers(HttpMethod.GET)
-//		.permitAll()
 		.authenticated()
 		.and().exceptionHandling()
 		.authenticationEntryPoint(this.jwtAuthenticationEntryPoint)
