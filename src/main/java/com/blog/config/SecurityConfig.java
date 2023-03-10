@@ -12,10 +12,14 @@ import org.springframework.security.config.annotation.web.configuration.EnableWe
 import org.springframework.security.config.http.SessionCreationPolicy;
 import org.springframework.security.core.userdetails.UserDetailsService;
 import org.springframework.security.crypto.bcrypt.BCryptPasswordEncoder;
+import org.springframework.security.crypto.password.PasswordEncoder;
 import org.springframework.security.web.DefaultSecurityFilterChain;
 import org.springframework.security.web.SecurityFilterChain;
+import org.springframework.security.web.authentication.UsernamePasswordAuthenticationFilter;
 
 import com.blog.security.CustomUserDetailService;
+import com.blog.security.JWTAuthenticationEntryPoint;
+import com.blog.security.JwtAuthenticationFilter;
 
 
 
@@ -27,10 +31,16 @@ public class SecurityConfig {
 	private CustomUserDetailService CustomUserDetailsService;
 	
 	@Autowired
-	private JWTAuthenticationEntryPoint jwtAuthenticationEntryPoint
+	private JWTAuthenticationEntryPoint jwtAuthenticationEntryPoint;
 	
 	@Autowired
 	private JwtAuthenticationFilter jwtAuthenticationFilter;
+	
+	@Bean
+	public PasswordEncoder passwordEncoder()
+	{
+		return new BCryptPasswordEncoder();
+	}
 	
 	@Bean
 	public DaoAuthenticationProvider authenticationProvider()
@@ -69,7 +79,7 @@ public class SecurityConfig {
 		.sessionManagement()
 		.sessionCreationPolicy(SessionCreationPolicy.STATELESS);
 		
-		http.addFilterBefore(this.jwtAuthenticationFilter, UsernamePasswordAuthentication);
+		http.addFilterBefore(this.jwtAuthenticationFilter, UsernamePasswordAuthenticationFilter.class);
 		
 		http.authenticationProvider(authenticationProvider());
 		
