@@ -27,7 +27,7 @@ public class SecurityConfig {
 	private CustomUserDetailService CustomUserDetailsService;
 	
 	@Autowired
-	private JWTAuthenticationEntryPont jwtAuthenticationEntryPoint
+	private JWTAuthenticationEntryPoint jwtAuthenticationEntryPoint
 	
 	@Autowired
 	private JwtAuthenticationFilter jwtAuthenticationFilter;
